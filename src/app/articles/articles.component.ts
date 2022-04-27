@@ -9,6 +9,7 @@ import { IArticle } from '../shared/interfaces';
   styleUrls: ['./articles.component.sass'],
 })
 export class ArticlesComponent implements OnInit {
+  title: string = 'Articles List';
   articles: IArticle[] = [];
 
   constructor(private plosService: PlosService) {}

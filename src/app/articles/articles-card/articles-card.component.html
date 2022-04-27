@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">{{article.titleDisplay}}</h5>
+    <p>Journal: {{article.journal}}</p>
+  </div>
+  <img *ngIf="article.journal.toLowerCase().startsWith('plos')" src="assets/images/article_image.png" class="card-img-top" alt="Article image">
+  <img *ngIf="!article.journal.toLowerCase().startsWith('plos')" src="assets/images/not_found.png" class="card-img-top" alt="Article image">
+  <div class="card-body">
+    <p class="card-text">{{article.abstract}}</p>
+    <button class="btn btn-primary">Edit</button>
+    <button class="btn btn-primary">Show Abstract</button>
+    <button class="btn btn-primary">Cancel</button>
+  </div>
+</div>

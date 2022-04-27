@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>Add or Edit an article</h2>
+  <form [formGroup]="articleForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="titleDisplay" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Journal</mat-label>
+      <input matInput formControlName="journal" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Abstract</mat-label>
+      <textarea
+        matInput
+        placeholder="Add an abstract of the article"
+        formControlName="abstract"
+      ></textarea>
+    </mat-form-field>
+  </form>
+  <div class="action-buttons">
+    <button mat-raised-button (click)="insertArticle()">Save</button>
+    <button mat-raised-button>Cancel</button>
+  </div>
+</div>

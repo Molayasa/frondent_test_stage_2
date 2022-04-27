@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { IArticle, IArticlePlos } from '../../shared/interfaces';
+import { IArticle, IArticleEdit, IArticlePlos } from '../../shared/interfaces';
 
 @Injectable()
 export class PlosService {
@@ -46,6 +46,18 @@ export class PlosService {
       }),
       catchError(this.handleError)
     );
+  }
+
+  insertArticle(article: IArticleEdit): Observable<IArticle> {
+    const { titleDisplay, journal, abstract } = article;
+    const newArticle: IArticle = {
+      id: Math.random().toString(),
+      titleDisplay,
+      journal,
+      abstract: [abstract],
+    };
+    this.articles.push(newArticle);
+    return of(newArticle).pipe(catchError(this.handleError));;
   }
 
   private handleError(error: HttpErrorResponse) {

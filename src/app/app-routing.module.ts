@@ -8,7 +8,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./articles/articles.module').then((m) => m.ArticlesModule),
   },
-  { path: '**', pathMatch: 'full', redirectTo: '/articles' }, // catch any unfound routes and redirect to home page
+  { path: '**', pathMatch: 'full', redirectTo: '/articles' },
 ];
 
 @NgModule({

@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { IArticle, IArticleEdit, IArticlePlos } from '../../shared/interfaces';
 
-@Injectable()
-export class PlosService {
+@Injectable({
+  providedIn: 'root',
+})
+export class DataService {
   apiUrl = 'https://api.plos.org/search?q=title:DNA';
   articles: IArticle[] = [];
 
   constructor(private http: HttpClient) {}
 
-  getArticles(): Observable<IArticle[]> {
+  fetchArticles(): Observable<IArticle[]> {
     return this.http.get<any>(this.apiUrl).pipe(
       map((response) => {
         const articlesPlos: IArticlePlos[] = response.response.docs;
@@ -42,13 +44,19 @@ export class PlosService {
           };
         });
 
+        this.articles = articles;
+
         return articles;
       }),
       catchError(this.handleError)
     );
   }
 
-  insertArticle(article: IArticleEdit): Observable<IArticle> {
+  getArticles(): Observable<IArticle[]> {
+    return of(this.articles);
+  }
+
+  insertArticle(article: IArticleEdit): Observable<IArticle[]> {
     const { titleDisplay, journal, abstract } = article;
     const newArticle: IArticle = {
       id: Math.random().toString(),
@@ -56,8 +64,9 @@ export class PlosService {
       journal,
       abstract: [abstract],
     };
-    this.articles.push(newArticle);
-    return of(newArticle).pipe(catchError(this.handleError));;
+    this.articles = [...this.articles, newArticle];
+
+    return of(this.articles);
   }
 
   private handleError(error: HttpErrorResponse) {

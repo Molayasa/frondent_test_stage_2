@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PlosService } from '../core/services/plos.service';
-import { IArticle } from '../shared/interfaces';
+import { DataService } from '../core/services/data.service';
+import { IArticle, IArticleEdit } from '../shared/interfaces';
 
 @Component({
   selector: 'app-articles',
@@ -12,15 +12,25 @@ export class ArticlesComponent implements OnInit {
   title: string = 'Articles List';
   articles: IArticle[] = [];
 
-  constructor(private plosService: PlosService) {}
+  constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.getArticles();
+    this.dataService.fetchArticles().subscribe((articles) => {
+      this.articles = articles;
+    });
   }
 
-  getArticles() {
-    this.plosService.getArticles().subscribe((articles: IArticle[]) => {
-      this.articles = articles;
+  insertArticle(article: IArticleEdit): void {
+    this.dataService.insertArticle(article).subscribe({
+      next: (articles) => {
+        // TODO: Change alerts for a modal
+        alert('Article added successfully');
+        this.articles = articles;
+      },
+      error: () => {
+        // TODO: Change alerts for a modal
+        alert('Error while adding new article');
+      },
     });
   }
 }

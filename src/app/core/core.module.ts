@@ -5,11 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NavbarComponent } from './navbar/navbar.component';
 
-import { PlosService } from './services/plos.service';
+import { DataService } from './services/data.service';
 @NgModule({
   imports: [CommonModule, RouterModule, HttpClientModule],
   exports: [RouterModule, NavbarComponent, HttpClientModule],
   declarations: [NavbarComponent],
-  providers: [PlosService],
+  providers: [DataService],
 })
 export class CoreModule {}

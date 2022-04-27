@@ -1,18 +1,27 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PlosService } from 'src/app/core/services/plos.service';
+import { DataService } from 'src/app/core/services/data.service';
+import { IArticleEdit } from 'src/app/shared/interfaces';
 
 @Component({
   selector: 'app-articles-edit',
   templateUrl: './articles-edit.component.html',
   styleUrls: ['./articles-edit.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArticlesEditComponent implements OnInit {
   articleForm!: FormGroup;
+  @Output() articleInserted = new EventEmitter<IArticleEdit>();
+
   constructor(
     private formBuilder: FormBuilder,
-    private plosService: PlosService
+    private dataService: DataService
   ) {
     this.articleForm = this.formBuilder.group({
       titleDisplay: ['', Validators.required],
@@ -23,17 +32,10 @@ export class ArticlesEditComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  insertArticle() {
+  insertArticle(): void {
     if (this.articleForm.valid) {
-      this.plosService.insertArticle(this.articleForm.value).subscribe({
-        next: (_res) => {
-          alert('Article added successfully');
-          this.articleForm.reset();
-        },
-        error: () => {
-          alert('Error while adding new article');
-        },
-      });
+      this.articleInserted.emit(this.articleForm.value);
+      this.articleForm.reset();
     }
   }
 }

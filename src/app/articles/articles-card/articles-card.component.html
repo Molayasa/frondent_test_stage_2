@@ -1,14 +1,27 @@
-<div class="card">
-  <div class="card-header">
-    <h5 class="card-title">{{article.titleDisplay}}</h5>
-    <p>Journal: {{article.journal}}</p>
-  </div>
-  <img *ngIf="article.journal.toLowerCase().startsWith('plos')" src="assets/images/article_image.png" class="card-img-top" alt="Article image">
-  <img *ngIf="!article.journal.toLowerCase().startsWith('plos')" src="assets/images/not_found.png" class="card-img-top" alt="Article image">
-  <div class="card-body">
-    <p class="card-text">{{article.abstract}}</p>
-    <button class="btn btn-primary">Edit</button>
-    <button class="btn btn-primary">Show Abstract</button>
-    <button class="btn btn-primary">Cancel</button>
-  </div>
-</div>
+<mat-card class="article-card">
+  <mat-card-header>
+    <mat-card-title>{{ article.titleDisplay }}</mat-card-title>
+    <mat-card-subtitle>Journal: {{ article.journal }}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    mat-card-image
+    *ngIf="article.journal.toLowerCase().startsWith('plos')"
+    src="assets/images/article_image.png"
+    alt="Article image"
+  />
+  <img
+    *ngIf="!article.journal.toLowerCase().startsWith('plos')"
+    src="assets/images/not_found.png"
+    alt="Article image"
+  />
+  <mat-card-content>
+    <p>
+      {{ article.abstract }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary">Edit</button>
+    <button mat-raised-button color="accent">Show Abstract</button>
+    <button mat-raised-button color="warn">Cancel</button>
+  </mat-card-actions>
+</mat-card>
